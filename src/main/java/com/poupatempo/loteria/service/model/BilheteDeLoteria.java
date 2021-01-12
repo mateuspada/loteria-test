@@ -1,4 +1,8 @@
-package com.poupatempo.loteria;
+package com.poupatempo.loteria.service.model;
+
+import com.poupatempo.loteria.api.response.BilheteDeLoteriaResponse;
+import com.poupatempo.loteria.repository.entity.BilheteDeLoteriaEntity;
+import com.poupatempo.loteria.repository.entity.ClienteEntity;
 
 import java.util.Random;
 import java.util.Set;
@@ -26,5 +30,13 @@ public class BilheteDeLoteria {
         }
 
         return numeros;
+    }
+
+    public BilheteDeLoteriaResponse toBilheteDeLoteriaResponse() {
+        return new BilheteDeLoteriaResponse(this.numerosDaLoteria);
+    }
+
+    public BilheteDeLoteriaEntity toBilheteDeLoteriaEntity(ClienteEntity clienteEntity) {
+        return new BilheteDeLoteriaEntity(clienteEntity, this.numerosDaLoteria);
     }
 }

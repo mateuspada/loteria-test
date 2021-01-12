@@ -1,11 +1,15 @@
-package com.poupatempo.loteria;
+package com.poupatempo.loteria.api.request;
+
+import com.poupatempo.loteria.service.model.Cliente;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class Cliente {
+public class ClienteRequest {
 
     @NotNull(message = "E-mail precisa ser preenchido")
+    @NotBlank(message = "E-mail precisa ser preenchido")
     @Email(message = "E-mail inválido")
     private String email;
 
@@ -15,5 +19,9 @@ public class Cliente {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Cliente toCliente() {
+        return new Cliente(this.email);
     }
 }
