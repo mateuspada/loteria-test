@@ -10,6 +10,7 @@ import com.poupatempo.loteria.service.model.Cliente;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LoteriaServiceImpl implements LoteriaService {
@@ -35,7 +36,9 @@ public class LoteriaServiceImpl implements LoteriaService {
         BilheteDeLoteria bilheteDeLoteria = new BilheteDeLoteria();
 
         // Salvando o bilhete
-        bilheteDeLoteriaRepository.save(bilheteDeLoteria.toBilheteDeLoteriaEntity(clienteEntity));
+        BilheteDeLoteriaEntity bilheteDeLoteriaEntity = bilheteDeLoteriaRepository.save(bilheteDeLoteria.toBilheteDeLoteriaEntity(clienteEntity));
+
+        bilheteDeLoteria.setId(bilheteDeLoteriaEntity.getId());
 
         return bilheteDeLoteria;
     }
@@ -48,12 +51,9 @@ public class LoteriaServiceImpl implements LoteriaService {
                 // Se não existir, então salva o cliente
                 .orElseThrow(() -> new RuntimeException("Cliente nao existe"));
 
-        List<BilheteDeLoteriaEntity> bilheteDeLoteriaEntities = bilheteDeLoteriaRepository.findAllByClienteEntity(clienteEntity);
-
-
-
-        List<BilheteDeLoteria> listaDeBilhetes
-
-        return null;
+        // Busca todos os bilhetes de loteria do cliente
+        return bilheteDeLoteriaRepository.findAllByClienteEntityOrderById(clienteEntity).stream()
+                .map(it -> new BilheteDeLoteria(it.getId(), it.getNumerosDaLoteria()))
+                .collect(Collectors.toList());
     }
 }

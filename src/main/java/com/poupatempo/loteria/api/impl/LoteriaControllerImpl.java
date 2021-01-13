@@ -4,10 +4,12 @@ import com.poupatempo.loteria.api.LoteriaController;
 import com.poupatempo.loteria.api.request.ClienteRequest;
 import com.poupatempo.loteria.api.response.BilheteDeLoteriaResponse;
 import com.poupatempo.loteria.service.LoteriaService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class LoteriaControllerImpl implements LoteriaController {
@@ -20,14 +22,20 @@ public class LoteriaControllerImpl implements LoteriaController {
 
     @Override
     public BilheteDeLoteriaResponse cadastrarBilhete(ClienteRequest clienteRequest) {
-        return loteriaService.cadastrarBilhete(clienteRequest.toCliente()).toBilheteDeLoteriaResponse();
+        return loteriaService.cadastrarBilhete(clienteRequest.toCliente()).toBilheteDeLoteriaResponse(clienteRequest.getEmail());
     }
 
     @Override
-    public List<BilheteDeLoteriaResponse> obterBilhetes(@Valid ClienteRequest clienteRequest) {
+    public ResponseEntity<List<BilheteDeLoteriaResponse>> obterBilhetes(ClienteRequest clienteRequest) {
 
-        loteriaService.obterBilhetes(clienteRequest.toCliente());
+        try {
+            return new ResponseEntity<>(loteriaService.obterBilhetes(clienteRequest.toCliente()).stream()
+                    .map(it -> it.toBilheteDeLoteriaResponse(clienteRequest.getEmail()))
+                    .collect(Collectors.toList()),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        return null;
     }
 }

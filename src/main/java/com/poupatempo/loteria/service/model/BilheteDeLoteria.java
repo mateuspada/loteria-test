@@ -9,11 +9,25 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class BilheteDeLoteria {
+    private Long id;
     private Set<Integer> numerosDaLoteria;
 
     //Construtor
     public BilheteDeLoteria() {
         this.numerosDaLoteria = gerarBilhete();
+    }
+
+    public BilheteDeLoteria(Long id, Set<Integer> numerosDaLoteria) {
+        this.id = id;
+        this.numerosDaLoteria = numerosDaLoteria;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Set<Integer> getNumerosDaLoteria() {
@@ -32,8 +46,8 @@ public class BilheteDeLoteria {
         return numeros;
     }
 
-    public BilheteDeLoteriaResponse toBilheteDeLoteriaResponse() {
-        return new BilheteDeLoteriaResponse(this.numerosDaLoteria);
+    public BilheteDeLoteriaResponse toBilheteDeLoteriaResponse(String email) {
+        return new BilheteDeLoteriaResponse(this.id, email, this.numerosDaLoteria.toString());
     }
 
     public BilheteDeLoteriaEntity toBilheteDeLoteriaEntity(ClienteEntity clienteEntity) {

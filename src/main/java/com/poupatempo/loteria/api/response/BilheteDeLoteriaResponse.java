@@ -1,15 +1,25 @@
 package com.poupatempo.loteria.api.response;
 
-import java.util.Set;
-
 public class BilheteDeLoteriaResponse {
-    private Set<Integer> numerosDaLoteria;
+    private Long id;
+    private String email;
+    private String numeros;
 
-    public BilheteDeLoteriaResponse(Set<Integer> numerosDaLoteria) {
-        this.numerosDaLoteria = numerosDaLoteria;
+    public BilheteDeLoteriaResponse(Long id, String email, String numeros) {
+        this.id = id;
+        this.email = email;
+        this.numeros = numeros;
     }
 
-    public Set<Integer> getNumerosDaLoteria() {
-        return numerosDaLoteria;
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNumeros() {
+        return numeros;
     }
 }

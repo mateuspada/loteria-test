@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface BilheteDeLoteriaRepository extends JpaRepository<BilheteDeLoteriaEntity, Long> {
 
-    List<BilheteDeLoteriaEntity> findAllByClienteEntity(ClienteEntity clienteEntity);
+    List<BilheteDeLoteriaEntity> findAllByClienteEntityOrderById(ClienteEntity clienteEntity);
 
 }
